@@ -38,7 +38,13 @@ const AppLayout = () => {
       title: 'Product Management',
       link: APP_ROUTES.PRODUCT_MANAGEMENT,
       icon: <AppstoreOutlined />,
-      roles: []
+    },
+    {
+      key: 2,
+      label: 'Profile Management',
+      title: 'Profile Management',
+      link: APP_ROUTES.PROFILE_MANAGEMENT,
+      icon: <AppstoreOutlined />,
     }
   ]
 

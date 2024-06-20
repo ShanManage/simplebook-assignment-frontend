@@ -3,6 +3,7 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import {
   Login,
   ProductManagement,
+  ProfileManagement,
 } from '../pages'
 import { APP_ROUTES } from '../utils/constants'
 import { AppLayout } from '../components'
@@ -15,6 +16,10 @@ const router = createBrowserRouter(
         <Route
           path={APP_ROUTES.PRODUCT_MANAGEMENT}
           element={<ProductManagement />}
+        />
+        <Route
+          path={APP_ROUTES.PROFILE_MANAGEMENT}
+          element={<ProfileManagement />}
         />
       </Route>
     </Route>
