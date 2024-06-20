@@ -5,12 +5,13 @@ import {
   ProductManagement,
 } from '../pages'
 import { APP_ROUTES } from '../utils/constants'
+import { AppLayout } from '../components'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path={'/'} element={<Login />} />
-      <Route path={'/'} >
+      <Route path={'/'} element={<AppLayout />}>
         <Route
           path={APP_ROUTES.PRODUCT_MANAGEMENT}
           element={<ProductManagement />}

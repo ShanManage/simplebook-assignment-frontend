@@ -16,3 +16,29 @@ body {
 .full-width {
   width: 100%;
 }
+
+.app-title {
+  color: $primary !important;
+  margin-top: 1rem !important;
+  white-space: nowrap;
+  transition: width 0.5s ease;
+  padding: 0rem 1rem 1rem 1rem;
+  overflow: hidden;
+
+  &.collapsed{
+    opacity: 0;
+  }
+}
+
+.app-content {
+  padding: 1.5rem;
+  height: calc(100vh - 4rem);
+  background-color: $bgColor;
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
+.page-title {
+  margin-top: 0.8rem !important;
+  padding-left: 1rem;
+}
