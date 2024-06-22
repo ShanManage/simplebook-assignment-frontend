@@ -5,15 +5,12 @@ import {
   Input, 
   Button, 
   Typography,
-  Image,
   Form
 } from "antd"
-import logo from '../../assets/react.svg'
 import { APP_ROUTES } from "../../utils/constants";
 import { LoginFormFields } from "../../interfaces/auth";
 import { useNavigate } from "react-router-dom";
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import styles from './Login.module.scss'
 
 const { Title, Text } = Typography;
 
@@ -23,16 +20,13 @@ const Login = () => {
     console.log(values)
     navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
   }
+
+  const onNavigateToSignUp = () => {
+    navigate(APP_ROUTES.SIGN_UP)
+  }
   return (
   <Flex justify="center">
     <Card styles={{ body: { padding: '30px 60px', width: 550 } }}>
-      <Flex justify="center">
-        <Image
-          width={250}
-          src={logo}
-          preview={false}
-        />
-      </Flex>
       <Flex justify="center"><Title level={3} style={{ margin: '0px' }}>Simplebooks</Title></Flex>
       <Flex justify="center"><Title level={3} style={{ margin: '0px' }}>Take Home Assignment</Title></Flex><br />
       <Flex justify="center"><Text disabled>Login to your account</Text></Flex><br /><br />
@@ -48,7 +42,7 @@ const Login = () => {
           >
             <Input
               size='large'
-              prefix={<MailOutlined className={styles.prefix} />}
+              prefix={<MailOutlined className='prefix-icon' />}
               placeholder='Email Address'
               // disabled={}
             />
@@ -59,7 +53,7 @@ const Login = () => {
           >
             <Input.Password
               size='large'
-              prefix={<LockOutlined className={styles.prefix} />}
+              prefix={<LockOutlined className='prefix-icon' />}
               placeholder='Password'
               // disabled={}
             />
@@ -73,12 +67,17 @@ const Login = () => {
               className='full-width'
               // loading={}
             >
-              Login
+              Sign in
             </Button>
           </Form.Item>
 
         </Space>
       </Form>
+
+      <Flex justify="center"><Text strong>Don't have an account.?</Text></Flex>
+      <Flex justify="center">
+        <Button type="link" onClick={onNavigateToSignUp}>Sign up</Button>
+      </Flex>
     </Card>
   </Flex>
   )
