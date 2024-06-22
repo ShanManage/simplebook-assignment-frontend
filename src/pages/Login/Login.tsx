@@ -11,19 +11,23 @@ import { APP_ROUTES } from "../../utils/constants";
 import { LoginFormFields } from "../../interfaces/auth";
 import { useNavigate } from "react-router-dom";
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { useAuth } from "../../utils/helpers";
 
 const { Title, Text } = Typography;
 
 const Login = () => {
   const navigate = useNavigate()
+  const { authenticate } = useAuth()
   const onFinish = (values: LoginFormFields) => {
     console.log(values)
-    navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
+    authenticate(values.username, values.password)
+    // navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
   }
 
   const onNavigateToSignUp = () => {
     navigate(APP_ROUTES.SIGN_UP)
   }
+
   return (
   <Flex justify="center">
     <Card styles={{ body: { padding: '30px 60px', width: 550 } }}>

@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import { ConfigProvider, ThemeConfig } from 'antd'
+import { AuthProvider } from './utils/helpers'
 
 const config: ThemeConfig = {
   components: {
@@ -19,8 +20,10 @@ const config: ThemeConfig = {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ConfigProvider theme={config}>
-      <App />
-    </ConfigProvider>
+    <AuthProvider>
+      <ConfigProvider theme={config}>
+        <App />
+      </ConfigProvider>
+    </AuthProvider>
   </React.StrictMode>,
 )

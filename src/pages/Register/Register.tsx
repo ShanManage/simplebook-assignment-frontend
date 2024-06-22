@@ -8,17 +8,21 @@ import {
     Form
   } from "antd"
   import { APP_ROUTES } from "../../utils/constants";
-  import { LoginFormFields } from "../../interfaces/auth";
+  import { SignUpFormFields } from "../../interfaces/auth";
   import { useNavigate } from "react-router-dom";
-  import { LockOutlined, MailOutlined } from '@ant-design/icons';
-  
+  import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
+import { useAuth } from "../../utils/helpers";
+
   const { Title, Text } = Typography;
   
   const Register = () => {
     const navigate = useNavigate()
-    const onFinish = (values: LoginFormFields) => {
+    const { createUser } = useAuth()
+    
+    const onFinish = (values: SignUpFormFields) => {
       console.log(values)
-      navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
+      createUser(values)
+      // navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
     }
   
     const onNavigateToSignIn = () => {
@@ -26,14 +30,38 @@ import {
     }
     return (
     <Flex justify="center">
-      <Card styles={{ body: { padding: '30px 60px', width: 550 } }}>
+      <Card styles={{ body: { padding: '30px 60px' } }}>
         <Flex justify="center"><Title level={3} style={{ margin: '0px' }}>Simplebooks</Title></Flex>
         <Flex justify="center"><Title level={3} style={{ margin: '0px' }}>Take Home Assignment</Title></Flex><br />
-        <Flex justify="center"><Text disabled>Login to your account</Text></Flex><br /><br />
+        <Flex justify="center"><Text disabled>Create your account</Text></Flex><br /><br />
   
         <Form onFinish={onFinish}>
           <Space direction="vertical" className="full-width">
-            <Form.Item<LoginFormFields>
+            
+            <Space direction="horizontal">
+              <Form.Item<SignUpFormFields>
+                name="firstName"
+                rules={[
+                  { required: true, message: 'Please enter your first name!' },
+                ]}
+              >
+                <Input
+                  size='large'
+                  prefix={<UserOutlined className='prefix-icon' />}
+                  placeholder='First Name'
+                  // disabled={}
+                />
+              </Form.Item>
+              <Form.Item<SignUpFormFields> name="lastName">
+                <Input
+                  size='large'
+                  prefix={<UserOutlined className='prefix-icon' />}
+                  placeholder='Last Name'
+                  // disabled={}
+                />
+              </Form.Item>
+            </Space>
+            <Form.Item<SignUpFormFields>
               name="username"
               rules={[
                 { required: true, message: 'Please enter your Email!' },
@@ -47,7 +75,7 @@ import {
                 // disabled={}
               />
             </Form.Item>
-            <Form.Item<LoginFormFields>
+            <Form.Item<SignUpFormFields>
               name="password"
               rules={[{ required: true, message: 'Please enter your password!' }]}
             >
@@ -55,6 +83,30 @@ import {
                 size='large'
                 prefix={<LockOutlined className='prefix-icon' />}
                 placeholder='Password'
+                // disabled={}
+              />
+            </Form.Item>
+            <Form.Item<SignUpFormFields>
+              name="confirmPassword"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please confirm your password!',
+                },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(new Error('The new password that you entered do not match!'));
+                  },
+                }),
+              ]}
+            >
+              <Input.Password
+                size='large'
+                prefix={<LockOutlined className='prefix-icon' />}
+                placeholder='Confirm Password'
                 // disabled={}
               />
             </Form.Item>
