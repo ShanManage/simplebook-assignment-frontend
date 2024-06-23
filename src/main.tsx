@@ -4,6 +4,7 @@ import App from './App.tsx'
 import { ConfigProvider, ThemeConfig } from 'antd'
 import { AuthProvider } from './utils/helpers'
 import { Providers } from './redux'
+import { SnackbarProvider } from 'notistack'
 
 const config: ThemeConfig = {
   components: {
@@ -24,7 +25,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Providers>
       <AuthProvider>
         <ConfigProvider theme={config}>
-          <App />
+          <SnackbarProvider>
+            <App />
+          </SnackbarProvider>
         </ConfigProvider>
       </AuthProvider>
     </Providers>

@@ -17,11 +17,11 @@ const { Title, Text } = Typography;
 
 const Login = () => {
   const navigate = useNavigate()
-  const { authenticate } = useAuth()
+  const { authenticate, isAuthorizing } = useAuth()
+  
   const onFinish = (values: LoginFormFields) => {
-    console.log(values)
     authenticate(values.username, values.password)
-    // navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
+    .then((value) => {if (value) navigate(APP_ROUTES.PRODUCT_MANAGEMENT)})
   }
 
   const onNavigateToSignUp = () => {
@@ -69,7 +69,7 @@ const Login = () => {
               size='large'
               htmlType="submit"
               className='full-width'
-              // loading={}
+              loading={isAuthorizing}
             >
               Sign in
             </Button>

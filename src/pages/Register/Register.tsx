@@ -12,25 +12,34 @@ import { SignUpFormFields } from "../../interfaces/auth";
 import { useNavigate } from "react-router-dom";
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { useAuth } from "../../utils/helpers";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux";
 import { useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../config/firebase";
+import { createAlert } from "../../redux/slice";
 
 const { Title, Text } = Typography;
 
 const Register = () => {
   const navigate = useNavigate()
-  const { createUser } = useAuth()
-  const [user, isAuthorizing] = useAuthState(auth);
+  const dispatch = useDispatch<AppDispatch>();
+  const { createUser, isAuthorizing } = useAuth()
 
   const isLoading = useSelector((state: RootState) => state.auth.isLoading)
   const isAuthorized = useSelector((state: RootState) => state.auth.isAuthorized)
 
   useEffect(() => {
-    if (!isAuthorizing &&!isLoading && isAuthorized && user) navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
-  }, [isLoading, isAuthorized, navigate, isAuthorizing, user])
+    if (!isLoading && isAuthorized) {
+      dispatch(createAlert({
+        message: 'Successfully Logged in',
+        type: 'error',
+        options: {
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        },
+      }));
+      navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
+    }
+  }, [isLoading, isAuthorized, navigate, dispatch])
 
   const onFinish = (values: SignUpFormFields) => {
     createUser(values)
