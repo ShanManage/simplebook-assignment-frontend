@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import { ConfigProvider, ThemeConfig } from 'antd'
 import { AuthProvider } from './utils/helpers'
+import { Providers } from './redux'
 
 const config: ThemeConfig = {
   components: {
@@ -20,10 +21,12 @@ const config: ThemeConfig = {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <AuthProvider>
-      <ConfigProvider theme={config}>
-        <App />
-      </ConfigProvider>
-    </AuthProvider>
+    <Providers>
+      <AuthProvider>
+        <ConfigProvider theme={config}>
+          <App />
+        </ConfigProvider>
+      </AuthProvider>
+    </Providers>
   </React.StrictMode>,
 )
