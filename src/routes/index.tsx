@@ -1,6 +1,7 @@
 
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import {
+  CreateProduct,
   Login,
   ProductManagement,
   ProfileManagement,
@@ -18,6 +19,10 @@ const router = createBrowserRouter(
         <Route
           path={APP_ROUTES.PRODUCT_MANAGEMENT}
           element={<ProductManagement />}
+        />
+        <Route
+          path={APP_ROUTES.CREATE_PRODUCT}
+          element={<CreateProduct />}
         />
         <Route
           path={APP_ROUTES.PROFILE_MANAGEMENT}

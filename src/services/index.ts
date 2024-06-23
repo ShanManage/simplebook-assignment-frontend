@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios'
 import { auth } from '../config/firebase'
+import { exceptionHandler } from '../utils/helpers'
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 
@@ -20,11 +21,11 @@ axiosPrivateInstance.interceptors.request.use(async (request: any) => {
 axiosPrivateInstance.interceptors.response.use(async (response) => {
   return response
 }, async (error) => {
-  return Promise.reject(error.response as string)
+  return Promise.reject(await exceptionHandler(error.response))
 })
 
 axiosPublicInstance.interceptors.response.use(async (response) => {
   return response
 }, async (error) => {
-  return Promise.reject(error.response as string)
+  return Promise.reject(await exceptionHandler(error.response))
 })
