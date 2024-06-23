@@ -2,10 +2,12 @@ import { Action, ThunkAction, combineReducers, configureStore } from "@reduxjs/t
 
 import authReducer from './slice/auth'
 import alertReducer from './slice/alert'
+import productReducer from './slice/product'
 
 const rootReducer = combineReducers({
   auth: authReducer,
   alert: alertReducer,
+  product: productReducer
 })
 
 export const store = configureStore({
