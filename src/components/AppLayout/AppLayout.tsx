@@ -11,12 +11,14 @@ import {
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { APP_ROUTES } from '../../utils/constants'
 import logo from '../../assets/react.svg'
+import { useAuth } from '../../utils/helpers'
 
 const { useBreakpoint } = Grid
 const { Title } = Typography
 
 const AppLayout = () => {
   const navigate = useNavigate()
+  const { logout } = useAuth()
   const [collapsed, setCollapsed] = useState(false)
   const matches = useBreakpoint()
   const isLg = matches.lg ?? false
@@ -64,7 +66,7 @@ const AppLayout = () => {
     token: { colorBgContainer }
   } = theme.useToken()
   const signOut = () => {
-    navigate(APP_ROUTES.ROOT)
+    logout().then((value) => { if (value) navigate(APP_ROUTES.ROOT) })
   }
 
   return (
@@ -129,9 +131,9 @@ const AppLayout = () => {
           </Flex>
         </Header>
         <Content className="site-layout">
-            <div className='app-content'>
-              <Outlet />
-            </div>
+          <div className='app-content'>
+            <Outlet />
+          </div>
         </Content>
       </Layout>
     </Layout>

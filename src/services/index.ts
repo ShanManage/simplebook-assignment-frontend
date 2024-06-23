@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { auth } from '../config/firebase'
 
-axios.defaults.baseURL = ''
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL
 
 export const axiosPublicInstance = axios.create()
 export const axiosPrivateInstance = axios.create()

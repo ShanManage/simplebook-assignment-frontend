@@ -1,43 +1,54 @@
 import {
-    Flex, 
-    Card, 
-    Space, 
-    Input, 
-    Button, 
-    Typography,
-    Form
-  } from "antd"
-  import { APP_ROUTES } from "../../utils/constants";
-  import { SignUpFormFields } from "../../interfaces/auth";
-  import { useNavigate } from "react-router-dom";
-  import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
+  Flex,
+  Card,
+  Space,
+  Input,
+  Button,
+  Typography,
+  Form
+} from "antd"
+import { APP_ROUTES } from "../../utils/constants";
+import { SignUpFormFields } from "../../interfaces/auth";
+import { useNavigate } from "react-router-dom";
+import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { useAuth } from "../../utils/helpers";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux";
+import { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../config/firebase";
 
-  const { Title, Text } = Typography;
-  
-  const Register = () => {
-    const navigate = useNavigate()
-    const { createUser } = useAuth()
-    
-    const onFinish = (values: SignUpFormFields) => {
-      console.log(values)
-      createUser(values)
-      // navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
-    }
-  
-    const onNavigateToSignIn = () => {
-      navigate(APP_ROUTES.ROOT)
-    }
-    return (
+const { Title, Text } = Typography;
+
+const Register = () => {
+  const navigate = useNavigate()
+  const { createUser } = useAuth()
+  const [user, isAuthorizing] = useAuthState(auth);
+
+  const isLoading = useSelector((state: RootState) => state.auth.isLoading)
+  const isAuthorized = useSelector((state: RootState) => state.auth.isAuthorized)
+
+  useEffect(() => {
+    if (!isAuthorizing &&!isLoading && isAuthorized && user) navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
+  }, [isLoading, isAuthorized, navigate, isAuthorizing, user])
+
+  const onFinish = (values: SignUpFormFields) => {
+    createUser(values)
+  }
+
+  const onNavigateToSignIn = () => {
+    navigate(APP_ROUTES.ROOT)
+  }
+  return (
     <Flex justify="center">
       <Card styles={{ body: { padding: '30px 60px' } }}>
         <Flex justify="center"><Title level={3} style={{ margin: '0px' }}>Simplebooks</Title></Flex>
         <Flex justify="center"><Title level={3} style={{ margin: '0px' }}>Take Home Assignment</Title></Flex><br />
         <Flex justify="center"><Text disabled>Create your account</Text></Flex><br /><br />
-  
+
         <Form onFinish={onFinish}>
           <Space direction="vertical" className="full-width">
-            
+
             <Space direction="horizontal">
               <Form.Item<SignUpFormFields>
                 name="firstName"
@@ -49,7 +60,7 @@ import { useAuth } from "../../utils/helpers";
                   size='large'
                   prefix={<UserOutlined className='prefix-icon' />}
                   placeholder='First Name'
-                  // disabled={}
+                // disabled={}
                 />
               </Form.Item>
               <Form.Item<SignUpFormFields> name="lastName">
@@ -57,7 +68,7 @@ import { useAuth } from "../../utils/helpers";
                   size='large'
                   prefix={<UserOutlined className='prefix-icon' />}
                   placeholder='Last Name'
-                  // disabled={}
+                // disabled={}
                 />
               </Form.Item>
             </Space>
@@ -72,7 +83,7 @@ import { useAuth } from "../../utils/helpers";
                 size='large'
                 prefix={<MailOutlined className='prefix-icon' />}
                 placeholder='Email Address'
-                // disabled={}
+              // disabled={}
               />
             </Form.Item>
             <Form.Item<SignUpFormFields>
@@ -83,7 +94,7 @@ import { useAuth } from "../../utils/helpers";
                 size='large'
                 prefix={<LockOutlined className='prefix-icon' />}
                 placeholder='Password'
-                // disabled={}
+              // disabled={}
               />
             </Form.Item>
             <Form.Item<SignUpFormFields>
@@ -107,33 +118,32 @@ import { useAuth } from "../../utils/helpers";
                 size='large'
                 prefix={<LockOutlined className='prefix-icon' />}
                 placeholder='Confirm Password'
-                // disabled={}
+              // disabled={}
               />
             </Form.Item>
-  
+
             <Form.Item>
               <Button
                 type="primary"
                 size='large'
                 htmlType="submit"
                 className='full-width'
-                // loading={}
+                loading={isAuthorizing || isLoading}
               >
                 Sign up
               </Button>
             </Form.Item>
-  
+
           </Space>
         </Form>
-  
+
         <Flex justify="center"><Text strong>Already have an account.?</Text></Flex>
         <Flex justify="center">
           <Button type="link" onClick={onNavigateToSignIn}>Sign in</Button>
         </Flex>
       </Card>
     </Flex>
-    )
-  }
-  
-  export default Register
-  
+  )
+}
+
+export default Register
