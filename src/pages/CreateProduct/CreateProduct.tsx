@@ -30,6 +30,7 @@ const CreateProduct = () => {
 
   useEffect(() => {
     if (!isLoading && status === 'success') {
+      dispatch(productAction.getAllProducts())
       navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
     }
   }, [isLoading, navigate, status])
@@ -46,7 +47,7 @@ const CreateProduct = () => {
     const formData = new FormData();
     formData.append('name', values.name);
     formData.append('description', values.description);
-    formData.append('price', '100');
+    formData.append('price', values.price);
     formData.append('image', file);
 
     const payload = { bodyParam: formData };

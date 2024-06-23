@@ -34,6 +34,20 @@ export const createProduct = createAsyncThunk(
   }
 )
 
+export const getAllProducts = createAsyncThunk(
+  'product/all-products',
+  async () => {
+    try {
+      const allProductsResponse = await productService.getAllProducts()
+      
+      return allProductsResponse;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+)
+
 export const productAction = {
-  createProduct
+  createProduct,
+  getAllProducts
 }

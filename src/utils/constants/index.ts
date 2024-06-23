@@ -1,3 +1,3 @@
 export * from './routes'
-export * from './data'
 export * from './auth'
+export * from './app'

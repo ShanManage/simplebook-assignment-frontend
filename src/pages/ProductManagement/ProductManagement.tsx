@@ -4,69 +4,79 @@ import {
   Space,
   Table,
   TableProps,
-  Tag,
+  Image,
 } from "antd"
 import { ProductsTableDataDto } from "../../interfaces/table";
-import { APP_ROUTES, TESTING_SUMMARY_DUMMY_DATA } from "../../utils/constants";
+import { APP_ROUTES, TABLE_DEFAULT_PAGE_SIZE } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
-
-const columns: TableProps<ProductsTableDataDto>['columns'] = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    ),
-  },
-];
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux";
+import { productAction } from "../../redux/action";
 
 const ProductManagement = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>();
+
+  const [image, setImage] = useState('')
+  const [visible, setVisible] = useState(false);
+
+  const allProducts = useSelector((state: RootState) => state.product.allProducts)
+  const isLoading = useSelector((state: RootState) => state.product.isLoading)
+
+  const onClickPreview = (product: ProductsTableDataDto) => {
+    setImage(product.image)
+    setVisible(true)
+  }
+
+  const columns: TableProps<ProductsTableDataDto>['columns'] = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
+      title: 'Image',
+      dataIndex: 'image',
+      key: 'image',
+      render: (_, record) => (
+        <Space size="middle">
+          <Button type="link" onClick={() => { onClickPreview(record) }}>Preview</Button>
+        </Space>
+      ),
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: () => (
+        <Space size="middle">
+          <a>edit</a>
+          <a>Delete</a>
+        </Space>
+      ),
+    },
+  ];
+
+  useEffect(() => {
+    dispatch(productAction.getAllProducts())
+  }, [])
+
   return (
     <>
       <Card
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Testing Summary</span>
+            <span>Product List</span>
             <Button type="primary" size="large" onClick={() => navigate(APP_ROUTES.CREATE_PRODUCT)}>Create Product</Button>
           </div>
         }
@@ -74,11 +84,33 @@ const ProductManagement = () => {
       >
         <Table
           size="small"
+          loading={isLoading}
           columns={columns}
-          dataSource={TESTING_SUMMARY_DUMMY_DATA}
-          pagination={{ defaultPageSize: 5, showSizeChanger: true, pageSizeOptions: [5, 10, 50, 100] }}
+          dataSource={allProducts.map((product) => {
+            return {
+              key: product.id,
+              name: product.name,
+              description: product.description,
+              price: product.price,
+              image: product.image
+            }
+          })}
+          pagination={{ defaultPageSize: TABLE_DEFAULT_PAGE_SIZE, showSizeChanger: true, pageSizeOptions: [10, 50, 100] }}
         />
       </Card>
+      
+      <Image
+        width={200}
+        style={{ display: 'none' }}
+        src={image}
+        preview={{
+          visible,
+          onVisibleChange: (value) => {
+            setVisible(value);
+            setImage('')
+          },
+        }}
+      />
     </>
   )
 }
