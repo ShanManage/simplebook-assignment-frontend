@@ -5,7 +5,8 @@ import { CreateNewUserPayloadDto, SignUpFormFields } from '../../interfaces';
 import { AppDispatch } from '../../redux';
 import { useDispatch } from 'react-redux';
 import { authAction } from '../../redux/action';
-import { clearAuthState } from '../../redux/slice';
+import { clearAuthState, createAlert } from '../../redux/slice';
+import { AuthErrorHandler } from './AuthErrorHandler';
 
 interface AuthContextType {
   isAuthorizing: boolean
@@ -49,9 +50,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       dispatch(authAction.createUser(payload))
     })
     .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log('errorCode', errorCode, 'errorMessage', errorMessage)
+      dispatch(createAlert({
+        message: AuthErrorHandler(error.code),
+        type: 'error',
+        options: {
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        },
+      }));
     }).finally(() => {
       setIsAuthorizing(false)
     });
@@ -60,16 +66,27 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const authenticate = async (username: string, password: string): Promise<boolean> => {
     setIsAuthorizing(true)
     return signInWithEmailAndPassword(auth, username, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
+      .then(() => {
+        dispatch(createAlert({
+          message: 'Successfully Logged in',
+          type: 'error',
+          options: {
+            key: new Date().getTime() + Math.random(),
+            variant: 'success',
+          },
+        }));
         return true;
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log('errorCode', errorCode, 'errorMessage', errorMessage);
+        dispatch(createAlert({
+          message: AuthErrorHandler(error.code),
+          type: 'error',
+          options: {
+            key: new Date().getTime() + Math.random(),
+            variant: 'error',
+          },
+        }));
+
         return false;
       }).finally(() => {
         setIsAuthorizing(false)
