@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext } from 'react'
+import { ReactNode, createContext, useContext, useState } from 'react'
 import {  signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword  } from 'firebase/auth';
 import { auth } from '../../config/firebase'
 import { CreateNewUserPayloadDto, SignUpFormFields } from '../../interfaces';
@@ -8,18 +8,21 @@ import { authAction } from '../../redux/action';
 import { clearAuthState } from '../../redux/slice';
 
 interface AuthContextType {
+  isAuthorizing: boolean
   createUser: (data: SignUpFormFields) => Promise<void>
-  authenticate: (username: string, password: string) => Promise<void>
+  authenticate: (username: string, password: string) => Promise<boolean>
   logout: () => Promise<boolean>
 }
 
 const AuthContext = createContext<AuthContextType>({
+  isAuthorizing: false,
   createUser: async () => await Promise.resolve(),
-  authenticate: async () => await Promise.resolve(),
+  authenticate: async () => await Promise.resolve(true),
   logout: async () => await Promise.resolve(true)
 })
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [isAuthorizing, setIsAuthorizing] = useState(false)
   const dispatch = useDispatch<AppDispatch>();
 
   const createUser = async (data: SignUpFormFields) => {
@@ -29,6 +32,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       firstName,
       lastName
     } = data
+    setIsAuthorizing(true)
     createUserWithEmailAndPassword(auth, username, password)
     .then((userCredential) => {
       // Signed in
@@ -47,22 +51,29 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage)
+        console.log('errorCode', errorCode, 'errorMessage', errorMessage)
+    }).finally(() => {
+      setIsAuthorizing(false)
     });
   }
 
-  const authenticate = async (username: string, password: string) => {
-    signInWithEmailAndPassword(auth, username, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      console.log(user);
-    })
-    .catch((error) => {
+  const authenticate = async (username: string, password: string): Promise<boolean> => {
+    setIsAuthorizing(true)
+    return signInWithEmailAndPassword(auth, username, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        return true;
+      })
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage)
-    });
+        console.log('errorCode', errorCode, 'errorMessage', errorMessage);
+        return false;
+      }).finally(() => {
+        setIsAuthorizing(false)
+      });
   }
 
   const logout = async (): Promise<boolean> => {
@@ -80,7 +91,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ createUser, authenticate, logout }}>
+    <AuthContext.Provider value={{ createUser, authenticate, logout, isAuthorizing }}>
       {children}
     </AuthContext.Provider>
   )

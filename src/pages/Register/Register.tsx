@@ -15,22 +15,19 @@ import { useAuth } from "../../utils/helpers";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux";
 import { useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../config/firebase";
 
 const { Title, Text } = Typography;
 
 const Register = () => {
   const navigate = useNavigate()
-  const { createUser } = useAuth()
-  const [user, isAuthorizing] = useAuthState(auth);
+  const { createUser, isAuthorizing } = useAuth()
 
   const isLoading = useSelector((state: RootState) => state.auth.isLoading)
   const isAuthorized = useSelector((state: RootState) => state.auth.isAuthorized)
 
   useEffect(() => {
-    if (!isAuthorizing &&!isLoading && isAuthorized && user) navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
-  }, [isLoading, isAuthorized, navigate, isAuthorizing, user])
+    if (!isLoading && isAuthorized) navigate(APP_ROUTES.PRODUCT_MANAGEMENT)
+  }, [isLoading, isAuthorized, navigate])
 
   const onFinish = (values: SignUpFormFields) => {
     createUser(values)
