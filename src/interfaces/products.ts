@@ -47,6 +47,15 @@ export interface GetProductPayloadDto {
     productId: string
   }
 }
+
+export interface DeleteProductPayloadDto {
+  pathParam: {
+    productId: string
+  }
+}
+export interface DeleteProductResponseDto {
+  message: string
+}
 export interface ProductDto {
   id: string
   name: string

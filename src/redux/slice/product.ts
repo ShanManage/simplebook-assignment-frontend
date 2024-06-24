@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductState } from "../../interfaces";
-import { createProduct, editProduct, editProductImage, getAllProducts, getProduct } from "../action";
+import { createProduct, deleteProduct, editProduct, editProductImage, getAllProducts, getProduct } from "../action";
 
 const initialState: ProductState = {
   isLoading: false,
@@ -58,6 +58,18 @@ const productSlice = createSlice({
       state.status = 'success'
     })
     .addCase(editProductImage.rejected, (state) => {
+      state.isLoading = false
+      state.status = 'error'
+    })
+    .addCase(deleteProduct.pending, (state) => {
+      state.isLoading = true
+      state.status = 'initial'
+    })
+    .addCase(deleteProduct.fulfilled, (state) => {
+      state.isLoading = false
+      state.status = 'success'
+    })
+    .addCase(deleteProduct.rejected, (state) => {
       state.isLoading = false
       state.status = 'error'
     })

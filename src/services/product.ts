@@ -2,6 +2,8 @@ import { AxiosResponse } from "axios";
 import { 
   CreateProductPayloadDto,
   CreateProductResponseDto,
+  DeleteProductPayloadDto,
+  DeleteProductResponseDto,
   EditProductImagePayloadDto,
   EditProductPayloadDto,
   EditProductResponseDto,
@@ -67,10 +69,21 @@ const getProduct = async (payload: GetProductPayloadDto): Promise<AxiosResponse<
   }
 };
 
+const deleteProduct = async (payload: DeleteProductPayloadDto): Promise<AxiosResponse<DeleteProductResponseDto>> => {
+  try {
+    const { productId } = payload.pathParam
+    const res: AxiosResponse<DeleteProductResponseDto> = await axiosPrivateInstance.delete(`/api/products/${productId}`);
+    return res;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
 export const productService = {
   createProduct,
   editProduct,
   editProductImage,
   getAllProducts,
-  getProduct
+  getProduct,
+  deleteProduct
 }

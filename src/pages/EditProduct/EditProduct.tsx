@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Button,
   Card,
@@ -14,7 +13,7 @@ import {
   Spin
 } from "antd"
 import { EditProductImagePayloadDto, EditProductPayloadDto, GetProductPayloadDto, ProductsFormFields } from "../../interfaces"
-import { InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import { AppDispatch, RootState } from "../../redux";
@@ -59,7 +58,7 @@ const EditProduct = () => {
       }
       dispatch(productAction.getProduct(payload))
     }
-  }, [isLoading, navigate, status])
+  }, [isLoading, status])
 
   useEffect(() => {
     if (product) {
@@ -121,7 +120,12 @@ const EditProduct = () => {
   return (
     <Spin spinning={isLoading}>
     <Card
-      title={<Title level={4}>Edit Product</Title>}
+      title={
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Title level={4}>Edit Product</Title>
+          <Button icon={<ArrowLeftOutlined />} onClick={() => navigate(APP_ROUTES.PRODUCT_MANAGEMENT)}>Back</Button>
+        </div>
+      }
       className="full-width"
     >
       <Form

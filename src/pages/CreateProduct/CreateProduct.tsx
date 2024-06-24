@@ -7,10 +7,11 @@ import {
   Input,
   Row,
   Space,
+  Typography,
   Upload,
 } from "antd"
 import { ProductsFormFields } from "../../interfaces"
-import { InboxOutlined } from '@ant-design/icons';
+import { InboxOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { useForm } from "antd/es/form/Form";
 import { AppDispatch, RootState } from "../../redux";
@@ -18,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { productAction } from "../../redux/action";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../utils/constants";
+const { Title } = Typography
 
 const CreateProduct = () => {
   const navigate = useNavigate()
@@ -66,7 +68,15 @@ const CreateProduct = () => {
     return Upload.LIST_IGNORE
   }
   return (
-    <Card title="Add Product" className="full-width">
+    <Card
+      title={
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Title level={4}>Add Product</Title>
+          <Button icon={<ArrowLeftOutlined />} onClick={() => navigate(APP_ROUTES.PRODUCT_MANAGEMENT)}>Back</Button>
+        </div>
+      }
+      className="full-width"
+    >
       <Form
         form={form}
         onFinish={onFinish}

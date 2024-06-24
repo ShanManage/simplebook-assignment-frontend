@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { CreateProductPayloadDto, EditProductImagePayloadDto, EditProductPayloadDto, GetProductPayloadDto } from "../../interfaces";
+import { CreateProductPayloadDto, DeleteProductPayloadDto, EditProductImagePayloadDto, EditProductPayloadDto, GetProductPayloadDto } from "../../interfaces";
 import { productService } from "../../services/product";
 import { createAlert } from "../slice";
 
@@ -120,10 +120,41 @@ export const getProduct = createAsyncThunk(
   }
 )
 
+export const deleteProduct = createAsyncThunk(
+  'product/delete-product',
+  async (payload: DeleteProductPayloadDto, { dispatch }) => {
+    try {
+      const productResponse = await productService.deleteProduct(payload)
+      
+      dispatch(createAlert({
+        message: 'Product deleted successfully',
+        type: 'success',
+        options: {
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        },
+      }));
+      
+      return productResponse;
+    } catch (error: any) {
+      dispatch(createAlert({
+        message: error.message,
+        type: 'error',
+        options: {
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        },
+      }));
+      throw new Error(error.message);
+    }
+  }
+)
+
 export const productAction = {
   createProduct,
   editProduct,
   editProductImage,
   getAllProducts,
-  getProduct
+  getProduct,
+  deleteProduct
 }
