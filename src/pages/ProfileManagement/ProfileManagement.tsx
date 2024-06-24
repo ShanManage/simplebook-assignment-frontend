@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/action";
 import { InboxOutlined } from '@ant-design/icons';
 import {
+  EditUserInfoPayloadDto,
   UserFormFields,
 } from "../../interfaces";
 import { useForm } from "antd/es/form/Form";
@@ -48,20 +49,18 @@ const ProfileManagement = () => {
   }, [user, form]);
 
   const onFinish = (values: UserFormFields) => {
-    // const payload: EditProductPayloadDto = {
-    //   pathParam: {
-    //     productId: id ?? ''
-    //   },
-    //   bodyParam: {
-    //     name: values.name,
-    //     description: values.description,
-    //     image: product.image,
-    //     price: values.price
-    //   }
-    // };
+    const payload: EditUserInfoPayloadDto = {
+      bodyParam: {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        phone: values.phone,
+        address: values.address,
+        image: user.image
+      }
+    };
 
-    // dispatch(productAction.editProduct(payload))
-    console.log('values', values)
+    dispatch(userAction.editProfile(payload))
   }
 
   const onUploadUserProfile = () => {

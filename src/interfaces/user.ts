@@ -22,3 +22,18 @@ export interface UserFormFields {
   address: string
   image: File
 }
+
+export interface EditUserInfoPayloadDto {
+  bodyParam: {
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
+    address: string
+    image: string
+  }
+}
+
+export interface EditUserInfoResponseDto {
+  message: string
+}
