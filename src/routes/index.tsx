@@ -2,6 +2,7 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import {
   CreateProduct,
+  EditProduct,
   Login,
   ProductManagement,
   ProfileManagement,
@@ -23,6 +24,10 @@ const router = createBrowserRouter(
         <Route
           path={APP_ROUTES.CREATE_PRODUCT}
           element={<CreateProduct />}
+        />
+        <Route
+          path={APP_ROUTES.EDIT_PRODUCT}
+          element={<EditProduct />}
         />
         <Route
           path={APP_ROUTES.PROFILE_MANAGEMENT}

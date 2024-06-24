@@ -2,6 +2,12 @@ import { AxiosResponse } from "axios";
 import { 
   CreateProductPayloadDto,
   CreateProductResponseDto,
+  DeleteProductPayloadDto,
+  DeleteProductResponseDto,
+  EditProductImagePayloadDto,
+  EditProductPayloadDto,
+  EditProductResponseDto,
+  GetProductPayloadDto,
   ProductDto,
 } from "../interfaces";
 import { axiosPrivateInstance } from ".";
@@ -18,6 +24,32 @@ const createProduct = async (
   }
 };
 
+const editProduct = async (
+  payload: EditProductPayloadDto,
+): Promise<AxiosResponse<EditProductResponseDto>> => {
+  const { bodyParam } = payload;
+  const { productId } = payload.pathParam
+  try {
+    const res: AxiosResponse<EditProductResponseDto> = await axiosPrivateInstance.put(`/api/products/${productId}`, bodyParam);
+    return res;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+const editProductImage = async (
+  payload: EditProductImagePayloadDto,
+): Promise<AxiosResponse<EditProductResponseDto>> => {
+  const { bodyParam } = payload;
+  const { productId } = payload.pathParam
+  try {
+    const res: AxiosResponse<EditProductResponseDto> = await axiosPrivateInstance.patch(`/api/products/${productId}/image`, bodyParam);
+    return res;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
 const getAllProducts = async (): Promise<AxiosResponse<ProductDto[]>> => {
   try {
     const res: AxiosResponse<ProductDto[]> = await axiosPrivateInstance.get('/api/products');
@@ -27,7 +59,31 @@ const getAllProducts = async (): Promise<AxiosResponse<ProductDto[]>> => {
   }
 };
 
+const getProduct = async (payload: GetProductPayloadDto): Promise<AxiosResponse<ProductDto>> => {
+  try {
+    const { productId } = payload.pathParam
+    const res: AxiosResponse<ProductDto> = await axiosPrivateInstance.get(`/api/products/${productId}`);
+    return res;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+const deleteProduct = async (payload: DeleteProductPayloadDto): Promise<AxiosResponse<DeleteProductResponseDto>> => {
+  try {
+    const { productId } = payload.pathParam
+    const res: AxiosResponse<DeleteProductResponseDto> = await axiosPrivateInstance.delete(`/api/products/${productId}`);
+    return res;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
 export const productService = {
   createProduct,
-  getAllProducts
+  editProduct,
+  editProductImage,
+  getAllProducts,
+  getProduct,
+  deleteProduct
 }
