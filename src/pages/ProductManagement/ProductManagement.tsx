@@ -5,6 +5,7 @@ import {
   Table,
   TableProps,
   Image,
+  Typography,
 } from "antd"
 import { ProductsTableDataDto } from "../../interfaces/table";
 import { APP_ROUTES, TABLE_DEFAULT_PAGE_SIZE, getEditProductRoute } from "../../utils/constants";
@@ -13,6 +14,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux";
 import { productAction } from "../../redux/action";
+
+const { Title } = Typography
 
 const ProductManagement = () => {
   const navigate = useNavigate()
@@ -76,8 +79,8 @@ const ProductManagement = () => {
       <Card
         title={
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span>Product List</span>
-            <Button type="primary" size="large" onClick={() => navigate(APP_ROUTES.CREATE_PRODUCT)}>Create Product</Button>
+            <Title level={4}>Edit Product</Title>
+            <Button type="primary" onClick={() => navigate(APP_ROUTES.CREATE_PRODUCT)}>Create Product</Button>
           </div>
         }
         style={{ width: '100%', marginTop: '20px' }}

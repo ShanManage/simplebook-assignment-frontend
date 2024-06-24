@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { CreateProductPayloadDto, GetProductPayloadDto } from "../../interfaces";
+import { CreateProductPayloadDto, EditProductImagePayloadDto, EditProductPayloadDto, GetProductPayloadDto } from "../../interfaces";
 import { productService } from "../../services/product";
 import { createAlert } from "../slice";
 
@@ -20,6 +20,66 @@ export const createProduct = createAsyncThunk(
       }));
       
       return createdProductResponse;
+    } catch (error: any) {
+      dispatch(createAlert({
+        message: error.message,
+        type: 'error',
+        options: {
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        },
+      }));
+      throw new Error(error.message);
+    }
+  }
+)
+
+export const editProduct = createAsyncThunk(
+  'product/edit-product',
+  async (payload: EditProductPayloadDto, { dispatch }) => {
+    try {
+      const editedProductResponse = await productService.editProduct(payload)
+      
+      dispatch(createAlert({
+        message: 'Product edited successfully',
+        type: 'success',
+        options: {
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        },
+      }));
+      
+      return editedProductResponse;
+    } catch (error: any) {
+      dispatch(createAlert({
+        message: error.message,
+        type: 'error',
+        options: {
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        },
+      }));
+      throw new Error(error.message);
+    }
+  }
+)
+
+export const editProductImage = createAsyncThunk(
+  'product/edit-product-image',
+  async (payload: EditProductImagePayloadDto, { dispatch }) => {
+    try {
+      const editedProductResponse = await productService.editProductImage(payload)
+      
+      dispatch(createAlert({
+        message: 'Product image edited successfully',
+        type: 'success',
+        options: {
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        },
+      }));
+      
+      return editedProductResponse;
     } catch (error: any) {
       dispatch(createAlert({
         message: error.message,
@@ -62,6 +122,8 @@ export const getProduct = createAsyncThunk(
 
 export const productAction = {
   createProduct,
+  editProduct,
+  editProductImage,
   getAllProducts,
   getProduct
 }

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductState } from "../../interfaces";
-import { createProduct, getAllProducts, getProduct } from "../action";
+import { createProduct, editProduct, editProductImage, getAllProducts, getProduct } from "../action";
 
 const initialState: ProductState = {
   isLoading: false,
@@ -18,7 +18,11 @@ const initialState: ProductState = {
 const productSlice = createSlice({
   name: 'product',
   initialState,
-  reducers: {},
+  reducers: {
+    clearProductStatus: (state) => {
+      state.status = 'initial'
+    }
+  },
   extraReducers: (builder) => {
     builder
     .addCase(createProduct.pending, (state) => {
@@ -30,6 +34,30 @@ const productSlice = createSlice({
       state.status = 'success'
     })
     .addCase(createProduct.rejected, (state) => {
+      state.isLoading = false
+      state.status = 'error'
+    })
+    .addCase(editProduct.pending, (state) => {
+      state.isLoading = true
+      state.status = 'initial'
+    })
+    .addCase(editProduct.fulfilled, (state) => {
+      state.isLoading = false
+      state.status = 'success'
+    })
+    .addCase(editProduct.rejected, (state) => {
+      state.isLoading = false
+      state.status = 'error'
+    })
+    .addCase(editProductImage.pending, (state) => {
+      state.isLoading = true
+      state.status = 'initial'
+    })
+    .addCase(editProductImage.fulfilled, (state) => {
+      state.isLoading = false
+      state.status = 'success'
+    })
+    .addCase(editProductImage.rejected, (state) => {
       state.isLoading = false
       state.status = 'error'
     })
@@ -59,5 +87,9 @@ const productSlice = createSlice({
     })
   }
 })
+
+export const {
+  clearProductStatus
+} = productSlice.actions
 
 export default productSlice.reducer;

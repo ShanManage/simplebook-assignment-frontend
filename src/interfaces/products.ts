@@ -20,6 +20,28 @@ export interface CreateProductResponseDto {
   message: string
 }
 
+export interface EditProductPayloadDto {
+  pathParam: {
+    productId: string
+  }
+  bodyParam: {
+    name: string
+    description: string
+    price: string
+    image: string
+  }
+}
+export interface EditProductImagePayloadDto {
+  pathParam: {
+    productId: string
+  }
+  bodyParam: FormData
+}
+
+export interface EditProductResponseDto {
+  message: string
+}
+
 export interface GetProductPayloadDto {
   pathParam: {
     productId: string
