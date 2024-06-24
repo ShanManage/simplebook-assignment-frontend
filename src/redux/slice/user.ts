@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserState } from "../../interfaces";
-import { editProfile, getUserInfo } from "../action";
+import { editProfile, editProfileImage, getUserInfo } from "../action";
 
 const initialState: UserState = {
   isLoading: false,
@@ -45,6 +45,15 @@ const userSlice = createSlice({
       state.isLoading = false
     })
     .addCase(editProfile.rejected, (state) => {
+      state.isLoading = false
+    })
+    .addCase(editProfileImage.pending, (state) => {
+      state.isLoading = true
+    })
+    .addCase(editProfileImage.fulfilled, (state) => {
+      state.isLoading = false
+    })
+    .addCase(editProfileImage.rejected, (state) => {
       state.isLoading = false
     })
   }

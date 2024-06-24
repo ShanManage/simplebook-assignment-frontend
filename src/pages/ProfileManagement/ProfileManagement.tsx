@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../redux/action";
 import { InboxOutlined } from '@ant-design/icons';
 import {
+  EditUserImagePayloadDto,
   EditUserInfoPayloadDto,
   UserFormFields,
 } from "../../interfaces";
@@ -73,14 +74,11 @@ const ProfileManagement = () => {
     const formData = new FormData();
     formData.append('image', file);
 
-    // const payload: EditProductImagePayloadDto = {
-    //   pathParam: {
-    //     productId: id ?? ''
-    //   },
-    //   bodyParam: formData
-    // };
+    const payload: EditUserImagePayloadDto = {
+      bodyParam: formData
+    };
 
-    // dispatch(productAction.editProductImage(payload))
+    dispatch(userAction.editProfileImage(payload))
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

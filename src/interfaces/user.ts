@@ -33,6 +33,9 @@ export interface EditUserInfoPayloadDto {
     image: string
   }
 }
+export interface EditUserImagePayloadDto {
+  bodyParam: FormData
+}
 
 export interface EditUserInfoResponseDto {
   message: string

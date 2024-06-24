@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { userService } from "../../services/user";
-import { EditUserInfoPayloadDto } from "../../interfaces";
+import { EditUserImagePayloadDto, EditUserInfoPayloadDto } from "../../interfaces";
 import { createAlert } from "../slice/alert";
 
 export const getUserInfo = createAsyncThunk(
@@ -48,7 +48,41 @@ export const editProfile = createAsyncThunk(
     }
   }
 )
+
+export const editProfileImage = createAsyncThunk(
+  'user/edit-user-image',
+  async (payload: EditUserImagePayloadDto, { dispatch }) => {
+    try {
+      const editedUserInfoResponse = await userService.editProfileImage(payload)
+      
+      dispatch(createAlert({
+        message: 'Profile Image Updated successfully',
+        type: 'success',
+        options: {
+          key: new Date().getTime() + Math.random(),
+          variant: 'success',
+        },
+      }));
+
+      dispatch(getUserInfo())
+      
+      return editedUserInfoResponse;
+    } catch (error: any) {
+      dispatch(createAlert({
+        message: error.message,
+        type: 'error',
+        options: {
+          key: new Date().getTime() + Math.random(),
+          variant: 'error',
+        },
+      }));
+      throw new Error(error.message);
+    }
+  }
+)
+
 export const userAction = {
   getUserInfo,
-  editProfile
+  editProfile,
+  editProfileImage
 }

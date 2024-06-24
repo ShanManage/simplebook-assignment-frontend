@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import {
+  EditUserImagePayloadDto,
   EditUserInfoPayloadDto,
   EditUserInfoResponseDto,
   UserDto,
@@ -27,7 +28,20 @@ const editProfile = async (
   }
 };
 
+const editProfileImage = async (
+  payload: EditUserImagePayloadDto,
+): Promise<AxiosResponse<EditUserInfoResponseDto>> => {
+  const { bodyParam } = payload;
+  try {
+    const res: AxiosResponse<EditUserInfoResponseDto> = await axiosPrivateInstance.patch('/api/users/image', bodyParam);
+    return res;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
 export const userService = {
   getUserInfo,
-  editProfile
+  editProfile,
+  editProfileImage
 }
