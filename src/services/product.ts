@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 import { 
   CreateProductPayloadDto,
   CreateProductResponseDto,
+  GetProductPayloadDto,
   ProductDto,
 } from "../interfaces";
 import { axiosPrivateInstance } from ".";
@@ -27,7 +28,18 @@ const getAllProducts = async (): Promise<AxiosResponse<ProductDto[]>> => {
   }
 };
 
+const getProduct = async (payload: GetProductPayloadDto): Promise<AxiosResponse<ProductDto>> => {
+  try {
+    const { productId } = payload.pathParam
+    const res: AxiosResponse<ProductDto> = await axiosPrivateInstance.get(`/api/products/${productId}`);
+    return res;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
 export const productService = {
   createProduct,
-  getAllProducts
+  getAllProducts,
+  getProduct
 }

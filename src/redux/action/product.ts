@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { CreateProductPayloadDto } from "../../interfaces";
+import { CreateProductPayloadDto, GetProductPayloadDto } from "../../interfaces";
 import { productService } from "../../services/product";
 import { createAlert } from "../slice";
 
@@ -47,7 +47,21 @@ export const getAllProducts = createAsyncThunk(
   }
 )
 
+export const getProduct = createAsyncThunk(
+  'product/get-product',
+  async (payload: GetProductPayloadDto) => {
+    try {
+      const productResponse = await productService.getProduct(payload)
+      
+      return productResponse;
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+)
+
 export const productAction = {
   createProduct,
-  getAllProducts
+  getAllProducts,
+  getProduct
 }

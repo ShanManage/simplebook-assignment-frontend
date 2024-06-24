@@ -2,6 +2,7 @@ export interface ProductState {
   isLoading: boolean
   status: 'success' | 'error' | 'initial'
   allProducts: ProductDto[]
+  product: ProductDto
 }
 
 export interface ProductsFormFields {
@@ -19,6 +20,11 @@ export interface CreateProductResponseDto {
   message: string
 }
 
+export interface GetProductPayloadDto {
+  pathParam: {
+    productId: string
+  }
+}
 export interface ProductDto {
   id: string
   name: string

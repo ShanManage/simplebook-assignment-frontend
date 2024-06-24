@@ -1,11 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductState } from "../../interfaces";
-import { createProduct, getAllProducts } from "../action";
+import { createProduct, getAllProducts, getProduct } from "../action";
 
 const initialState: ProductState = {
   isLoading: false,
   status: 'initial',
-  allProducts: []
+  allProducts: [],
+  product: {
+    id: "",
+    name: "",
+    description: "",
+    price: "",
+    image: ""
+  }
 }
 
 const productSlice = createSlice({
@@ -36,6 +43,18 @@ const productSlice = createSlice({
     })
     .addCase(getAllProducts.rejected, (state) => {
       state.allProducts = []
+      state.isLoading = false
+    })
+    .addCase(getProduct.pending, (state) => {
+      state.product = initialState.product
+      state.isLoading = true
+    })
+    .addCase(getProduct.fulfilled, (state, action) => {
+      state.product = action.payload.data
+      state.isLoading = false
+    })
+    .addCase(getProduct.rejected, (state) => {
+      state.product = initialState.product
       state.isLoading = false
     })
   }

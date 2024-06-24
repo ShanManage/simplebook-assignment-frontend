@@ -7,7 +7,7 @@ import {
   Image,
 } from "antd"
 import { ProductsTableDataDto } from "../../interfaces/table";
-import { APP_ROUTES, TABLE_DEFAULT_PAGE_SIZE } from "../../utils/constants";
+import { APP_ROUTES, TABLE_DEFAULT_PAGE_SIZE, getEditProductRoute } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,9 +58,9 @@ const ProductManagement = () => {
     {
       title: 'Action',
       key: 'action',
-      render: () => (
+      render: (_, record) => (
         <Space size="middle">
-          <a>edit</a>
+          <Button type="link" onClick={() => { navigate(getEditProductRoute(record.key)) }}>Edit</Button>
           <a>Delete</a>
         </Space>
       ),
