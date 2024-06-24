@@ -119,109 +119,109 @@ const EditProduct = () => {
 
   return (
     <Spin spinning={isLoading}>
-    <Card
-      title={
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Title level={4}>Edit Product</Title>
-          <Button icon={<ArrowLeftOutlined />} onClick={() => navigate(APP_ROUTES.PRODUCT_MANAGEMENT)}>Back</Button>
-        </div>
-      }
-      className="full-width"
-    >
-      <Form
-        form={form}
-        onFinish={onFinish}
-        labelCol={{ span: 4 }}
+      <Card
+        title={
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Title level={4}>Edit Product</Title>
+            <Button icon={<ArrowLeftOutlined />} onClick={() => navigate(APP_ROUTES.PRODUCT_MANAGEMENT)}>Back</Button>
+          </div>
+        }
+        className="full-width"
       >
-        <Space direction="vertical" className="full-width">
-          <Row gutter={24}>
-            <Col xs={12} >
-              <Form.Item<ProductsFormFields>
-                name="name"
-                rules={[
-                  { required: true, message: 'Please enter product name!' },
-                ]}
-              >
-                <Input
+        <Form
+          form={form}
+          onFinish={onFinish}
+          labelCol={{ span: 4 }}
+        >
+          <Space direction="vertical" className="full-width">
+            <Row gutter={24}>
+              <Col xs={12} >
+                <Form.Item<ProductsFormFields>
+                  name="name"
+                  rules={[
+                    { required: true, message: 'Please enter product name!' },
+                  ]}
+                >
+                  <Input
+                    size='large'
+                    placeholder='Enter Product Name'
+                  // disabled={}
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={12} >
+                <Form.Item<ProductsFormFields>
+                  name="price"
+                  rules={[
+                    { required: true, message: 'Please enter product price!' },
+                  ]}
+                >
+                  <Input
+                    size='large'
+                    placeholder='Enter Product Price'
+                  // disabled={}
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} >
+                <Form.Item<ProductsFormFields>
+                  name="description"
+                  rules={[{ required: true, message: 'Please enter product description!' }]}
+                >
+                  <Input.TextArea
+                    size='large'
+                    placeholder='Enter Product description'
+                    rows={2}
+                  // disabled={}
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={{ span: 6, offset: 18 }} >
+                <Button
+                  type="primary"
                   size='large'
-                  placeholder='Enter Product Name'
-                // disabled={}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={12} >
-              <Form.Item<ProductsFormFields>
-                name="price"
-                rules={[
-                  { required: true, message: 'Please enter product price!' },
-                ]}
-              >
-                <Input
-                  size='large'
-                  placeholder='Enter Product Price'
-                // disabled={}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={24} >
-              <Form.Item<ProductsFormFields>
-                name="description"
-                rules={[{ required: true, message: 'Please enter product description!' }]}
-              >
-                <Input.TextArea
-                  size='large'
-                  placeholder='Enter Product description'
-                  rows={2}
-                // disabled={}
-                />
-              </Form.Item>
-            </Col>
-            <Col xs={{ span: 6, offset: 18 }} >
-              <Button
-                type="primary"
-                size='large'
-                htmlType="submit"
-                className="full-width"
-              >
-                Edit Product
-              </Button>
-            </Col>
-          </Row>
-        </Space>
-      </Form>
-      <Divider />
-      <Row gutter={[24, 24]}>
-        <Col xs={6} >
-          <Image
-            width={200}
-            style={{ border: '1px dotted gray' }}
-            src={product.image}
-          />
-        </Col>
-        <Col xs={18} >
-          <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-            <Upload.Dragger name="image" showUploadList={false} beforeUpload={handleBeforeUpload}>
-              <p className="ant-upload-drag-icon">
-                <InboxOutlined />
-              </p>
-              <p className="ant-upload-text">Click or drag image to this area to update product image</p>
-              <p className="ant-upload-hint">Support for a single upload.</p>
-            </Upload.Dragger>
-          </Form.Item>
-        </Col>
-        <Col xs={{ span: 6, offset: 18 }} >
-          <Button
-            type="primary"
-            size='large'
-            htmlType="submit"
-            className="full-width"
-            onClick={onUploadProductImage}
-          >
-            Upload
-          </Button>
-        </Col>
-      </Row>
-    </Card>
+                  htmlType="submit"
+                  className="full-width"
+                >
+                  Edit Product
+                </Button>
+              </Col>
+            </Row>
+          </Space>
+        </Form>
+        <Divider />
+        <Row gutter={[24, 24]}>
+          <Col xs={6} >
+            <Image
+              width={200}
+              style={{ border: '1px dotted gray' }}
+              src={product.image}
+            />
+          </Col>
+          <Col xs={18} >
+            <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
+              <Upload.Dragger name="image" showUploadList={false} beforeUpload={handleBeforeUpload}>
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined />
+                </p>
+                <p className="ant-upload-text">Click or drag image to this area to update product image</p>
+                <p className="ant-upload-hint">Support for a single upload.</p>
+              </Upload.Dragger>
+            </Form.Item>
+          </Col>
+          <Col xs={{ span: 6, offset: 18 }} >
+            <Button
+              type="primary"
+              size='large'
+              htmlType="submit"
+              className="full-width"
+              onClick={onUploadProductImage}
+            >
+              Upload
+            </Button>
+          </Col>
+        </Row>
+      </Card>
     </Spin>
   )
 }

@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 
 import { AppDispatch, RootState } from '../../redux';
-import { clearAlert } from '../../redux/slice';
 import { AlertDto } from '../../interfaces';
 import { Button } from 'antd';
+import { clearAlert } from '../../redux/slice/alert';
 
 function UseNotifier() {
   const dispatch = useDispatch<AppDispatch>();

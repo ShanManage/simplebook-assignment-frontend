@@ -5,8 +5,9 @@ import { CreateNewUserPayloadDto, SignUpFormFields } from '../../interfaces';
 import { AppDispatch } from '../../redux';
 import { useDispatch } from 'react-redux';
 import { authAction } from '../../redux/action';
-import { clearAuthState, createAlert } from '../../redux/slice';
 import { AuthErrorHandler } from './AuthErrorHandler';
+import { createAlert } from '../../redux/slice/alert';
+import { clearAuthState } from '../../redux/slice/auth';
 
 interface AuthContextType {
   isAuthorizing: boolean

@@ -2,7 +2,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { CreateProductPayloadDto, DeleteProductPayloadDto, EditProductImagePayloadDto, EditProductPayloadDto, GetProductPayloadDto } from "../../interfaces";
 import { productService } from "../../services/product";
-import { createAlert } from "../slice";
+import { createAlert } from "../slice/alert";
 
 export const createProduct = createAsyncThunk(
   'product/create-product',
