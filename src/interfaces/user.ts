@@ -1,6 +1,5 @@
 export interface UserState {
   isLoading: boolean
-  status: 'success' | 'error' | 'initial'
   user: UserDto
 }
 

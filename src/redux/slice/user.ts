@@ -4,7 +4,6 @@ import { editProfile, editProfileImage, getUserInfo } from "../action";
 
 const initialState: UserState = {
   isLoading: false,
-  status: 'initial',
   user: {
     firstName: "",
     lastName: "",
@@ -19,11 +18,7 @@ const initialState: UserState = {
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    clearUserStatus: (state) => {
-      state.status = 'initial'
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
     .addCase(getUserInfo.pending, (state) => {
@@ -58,9 +53,5 @@ const userSlice = createSlice({
     })
   }
 })
-
-export const {
-  clearUserStatus
-} = userSlice.actions
 
 export default userSlice.reducer;
