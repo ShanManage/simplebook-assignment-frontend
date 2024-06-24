@@ -1,13 +1,17 @@
 import { Action, ThunkAction, combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import authReducer from './slice/auth'
-import alertReducer from './slice/alert'
-import productReducer from './slice/product'
+import {
+  alertReducer,
+  authReducer,
+  productReducer,
+  userReducer
+} from './slice'
 
 const rootReducer = combineReducers({
   auth: authReducer,
   alert: alertReducer,
-  product: productReducer
+  product: productReducer,
+  user: userReducer
 })
 
 export const store = configureStore({

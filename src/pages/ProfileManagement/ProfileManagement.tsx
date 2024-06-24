@@ -3,6 +3,10 @@ import {
   Descriptions,
   DescriptionsProps,
 } from "antd"
+import { useEffect } from "react";
+import { AppDispatch } from "../../redux";
+import { useDispatch } from "react-redux";
+import { userAction } from "../../redux/action";
 
 const items: DescriptionsProps['items'] = [
   {
@@ -34,6 +38,11 @@ const items: DescriptionsProps['items'] = [
 ];
 
 const ProfileManagement = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(userAction.getUserInfo())
+  }, [])
   return (
     <Card>
       <Descriptions title="User Info" layout="horizontal" items={items} />

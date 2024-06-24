@@ -15,7 +15,7 @@ import { useAuth } from "../../utils/helpers";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux";
 import { useEffect } from "react";
-import { createAlert } from "../../redux/slice";
+import { createAlert } from "../../redux/slice/alert";
 
 const { Title, Text } = Typography;
 
