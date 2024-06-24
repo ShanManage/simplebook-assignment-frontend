@@ -13,3 +13,12 @@ export interface UserDto {
   image: string
   id: string
 }
+
+export interface UserFormFields {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  address: string
+  image: File
+}
