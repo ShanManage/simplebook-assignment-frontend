@@ -1,30 +1,60 @@
-# React + TypeScript + Vite
+# SIMPLEBOOKS-ASSIGNMENT-FRONTEND
+This repository contains the source code relates to simplebooks take home assignment (Front-End). 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a [React.js](https://react.dev/) project bootstrapped with [`create vite`](https://vitejs.dev/guide/).
 
-Currently, two official plugins are available:
+## Application structure
+Source of the application is structured according to the following structure.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `src` - Root directory which contains project source
+    - `assets` - Static assets like images
+    - `components` - components of the application
+    - `config` - configurations of the application
+    - `interface` - interfaces of the application
+    - `pages` - pages of the application which combines components
+    - `redux` - redux toolkit slices, actions and state
+    - `routes` - Application routing configurations
+    - `service` - REST services of the application
+    - `styles` - global/reusable styles of the application
+    - `util` - utilities of the application
+      - `constant` - constants of the application
+      - `helpers` - reusable/global/common utility functions
+- `.env.example` - ENV configuration example file. This reflect all required environment configurations
+- `.eslintrc.json` - ES Lint configurations
+- `.gitignore` - Specifies which files and directories should be ignored by Git
+- `package.json` - NPM packages and configuration file.
 
-## Expanding the ESLint configuration
+## Setting up the development environment.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+#### Recommended IDE
+Visual Studio Code is recommended for local development.
 
-- Configure the top-level `parserOptions` property like this:
+#### Install dependencies
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+> [!IMPORTANT]
+> node version 18.x.x has been used and tested in the dev environment. Not encourage to use any lower version.
+
+
+Execute below NPM script in the root directory to install required dependencies.
+
+```bash
+npm install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+#### Environment configuration
+Read **.env.example** to find all the required env configurations. Strongly recommended to update the .env.example file if there is any change added to env configurations.
+
+## Starting the development server
+
+> [!IMPORTANT]
+> Prerequisite for the development environment should be configured properly before apply any changes to the application source code. (Refer the **"Setting up the development environment"** section. )
+
+Run the development server with:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) with your browser to see the result.
+
+You can start editing the source code. The page auto-updates as you edit the file.
