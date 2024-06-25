@@ -1,10 +1,35 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
-import './index.css'
+import { ConfigProvider, ThemeConfig } from 'antd'
+import { AuthProvider } from './utils/helpers'
+import { Providers } from './redux'
+import { SnackbarProvider } from 'notistack'
+
+const config: ThemeConfig = {
+  components: {
+    Button: {
+      colorPrimary: '#5570F1'
+    },
+    Pagination: {
+      borderRadius: 20,
+      itemActiveBg: '#4387F0',
+      colorPrimary: '#f8f8f8',
+      colorPrimaryHover: '#f8f8f8'
+    }
+  }
+}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <Providers>
+      <AuthProvider>
+        <ConfigProvider theme={config}>
+          <SnackbarProvider>
+            <App />
+          </SnackbarProvider>
+        </ConfigProvider>
+      </AuthProvider>
+    </Providers>
   </React.StrictMode>,
 )
